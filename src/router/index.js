@@ -89,6 +89,7 @@ export const constantRoutes = [
         path: '',
         name: 'default',
         components: {
+          'containner-main': () => import('@/views/index/MainPage'),
           ...common
         },
         meta: { isNeedAuth: false }
