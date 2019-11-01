@@ -23,6 +23,7 @@
         <li>
           <span class="link-black text-sm">
             <svg-icon icon-class="like" />
+            <i class="el-icon-apple" />
             Like
           </span>
         </li>
@@ -51,6 +52,7 @@
         <li>
           <span class="link-black text-sm">
             <svg-icon icon-class="like" />
+            <i class="el-icon-apple" />
             Like
           </span>
         </li>
@@ -73,7 +75,9 @@
         <li><span class="link-black text-sm"><i class="el-icon-share" /> Share</span></li>
         <li>
           <span class="link-black text-sm">
-            <svg-icon icon-class="like" /> Like</span>
+            <svg-icon icon-class="like" />
+            <i class="el-icon-apple" /> Like
+          </span>
         </li>
       </ul>
     </div>
@@ -150,6 +154,10 @@ export default {
     .user-images {
       padding-top: 20px;
     }
+
+    p {
+      cursor: pointer;
+    }
   }
 
   .list-inline {
@@ -170,6 +178,7 @@ export default {
       &:focus {
         color: #999;
       }
+      cursor: pointer;
     }
   }
 
