@@ -72,6 +72,7 @@ export const constantRoutes = [
         path: 'history',
         name: 'history',
         components: {
+          'containner-main': () => import('@/views/index/HistoryList'),
           ...common
         },
         meta: { isNeedAuth: false }
