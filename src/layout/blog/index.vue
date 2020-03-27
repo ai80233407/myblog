@@ -42,7 +42,7 @@
               </el-row>
               <el-col :span="5">
                 <keep-alive>
-                  <div class="grid-content-containner" >
+                  <div class="grid-content-containner">
                     <router-view name="containner-left-card" />
                   </div>
                 </keep-alive>
@@ -85,29 +85,13 @@ import ResizeMixin from '../admin/mixin/ResizeHandler'
 export default {
   name: 'LayoutBlog',
   mixins: [ResizeMixin],
-  data: function () {
-      return {
-
-      };
+  data: function() {
+    return {
+    }
   },
   computed: {
   },
   methods: {
-  },
-  mounted: function () {
-      let vm = this;
-      // window.onresize = function windowResize() {
-      //     // 通过捕获系统的onresize事件触发我们需要执行的事件
-      //     var w = window.innerWidth
-      //     var h = 270
-      //     if (w > 1180) {
-      //         h = 270
-      //     } else {
-      //         h = 0.22 * w
-      //     }
-      //     that.hdgd = h + 'px'
-      //     console.log(that.hdgd)
-      // }
   }
 }
 </script>

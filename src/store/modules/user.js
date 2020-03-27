@@ -6,7 +6,8 @@ const state = {
   token: getToken(),
   name: '',
   avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-  roles: []
+  roles: [],
+  islogin: false
 }
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_LOGIN: (state, status) => {
+    state.islogin = status
   }
 }
 
@@ -32,6 +36,7 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        commit('SET_LOGIN', true)
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -67,6 +72,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
+        commit('SET_LOGIN', false)
         removeToken()
         resetRouter()
         resolve()

@@ -1,14 +1,31 @@
 <template>
   <div class="shadow">
-    <router-link to="/login">
-      <el-button type="primary" plain round>登录</el-button>
-    </router-link>
-    <el-button plain round>注册</el-button>
+    <template v-if="islogin">
+      <router-link to="/login">
+        {{name}}
+      </router-link>
+      <el-button plain round>退出登录</el-button>
+    </template>
+    <template v-else>
+      <router-link to="/login">
+        <el-button type="primary" plain round>登录</el-button>
+      </router-link>
+      <el-button plain round>注册</el-button>
+    </template>
   </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
+
 export default {
-  name: 'HeaderLoginBtn'
+  name: 'HeaderLoginBtn',
+  computerd: {
+    ...mapGetters([
+      'name',
+      'avatar',
+      'islogin'
+    ])
+  }
 }
 </script>
 <style lang="scss" scoped>
