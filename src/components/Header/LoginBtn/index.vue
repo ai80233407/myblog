@@ -3,7 +3,7 @@
     <template v-if="islogin">
       <span :style="{'background': 'url('+avatar+')'}" class="pan-thumb"></span>
       <span class="user-info">
-        <span style="margin-right: 10px;">{{ name }}</span>
+        <span class="user-name">{{ name }}</span>
         <el-button plain round>登出</el-button>
       </span>
     </template>
@@ -51,6 +51,10 @@ export default {
     }
     .user-info{
       margin-left: 50px;
+      .user-name{
+        margin-right: 5px;
+        cursor: pointer;
+      }
     }
   }
   .el-button.is-round {
