@@ -4,7 +4,7 @@
       <span :style="{'background': 'url('+avatar+')'}" class="pan-thumb"></span>
       <span class="user-info">
         <span class="user-name">{{ name }}</span>
-        <el-button plain round>登出</el-button>
+        <el-button @click="logout" plain round>登出</el-button>
       </span>
     </template>
     <template v-else>
@@ -26,6 +26,14 @@ export default {
       'avatar',
       'islogin'
     ])
+  },
+  methods: {
+    logout: function() {
+      const vm = this
+      vm.$store.dispatch('user/logout').then(function() {
+        vm.$router.push({ path: '/' })
+      })
+    }
   }
 }
 </script>

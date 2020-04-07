@@ -60,6 +60,7 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
+        commit('SET_LOGIN', true)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -86,6 +87,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
+      commit('SET_LOGIN', false)
       removeToken()
       resolve()
     })
