@@ -1,17 +1,33 @@
 <template>
   <div class="shadow">
     <template v-if="islogin">
-      <span :style="{'background': 'url('+avatar+')'}" class="pan-thumb"></span>
-      <span class="user-info">
-        <span class="user-name">{{ name }}</span>
-        <el-button @click="logout" plain round>登出</el-button>
-      </span>
+      <span :style="{'background': 'url('+avatar+')'}" class="pan-thumb "></span>
+      <div style="text-align: right;">
+        <el-dropdown>
+          <span class="user-name">
+            {{ name }}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>发布文章</el-dropdown-item>
+            <el-dropdown-item>查看分类</el-dropdown-item>
+            <el-dropdown-item>动态</el-dropdown-item>
+            <el-dropdown-item disabled>管理后台</el-dropdown-item>
+            <el-dropdown-item divided>其他</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <span class="user-info">
+          <el-button @click="logout">登出</el-button>
+        </span>
+      </div>
     </template>
     <template v-else>
-      <router-link to="/login">
-        <el-button type="primary" plain round>登录</el-button>
-      </router-link>
-      <el-button plain round>注册</el-button>
+      <div style="text-align: right">
+        <router-link to="/login">
+          <el-button type="primary" plain round>登录</el-button>
+        </router-link>
+        <el-button plain round>注册</el-button>
+      </div>
     </template>
   </div>
 </template>
@@ -46,23 +62,24 @@ export default {
     .pan-thumb {
       width: 45px;
       height: 45px;
+      float: right;
       background-position: center center!important;
       background-size: cover!important;
       border-radius: 50%;
       overflow: hidden;
-      top:7px;
-      position: absolute;
+      top:-3px;
+      position: relative;
       -webkit-transform-origin: 95% 40%;
       transform-origin: 95% 40%;
       -webkit-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
     }
     .user-info{
-      margin-left: 50px;
-      .user-name{
-        margin-right: 5px;
-        cursor: pointer;
-      }
+      margin-left: 10px;
+      margin-right: 20px;
+    }
+    .user-name{
+      cursor: pointer;
     }
   }
   .el-button.is-round {
