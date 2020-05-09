@@ -14,7 +14,7 @@
         </div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">Please check that the URL you entered is correct, or click the button below to return to the homepage.</div>
-        <a href="" class="bullshit__return-home">Back to home</a>
+        <a href="javascript:void(0)" @click="go_back" class="bullshit__return-home">Back to home</a>
       </div>
     </div>
   </div>
@@ -27,6 +27,12 @@ export default {
   computed: {
     message() {
       return 'The webmaster said that you can not enter this page...'
+    }
+  },
+  methods: {
+    go_back: function() {
+      const vm = this
+      vm.$router.go(-1)
     }
   }
 }

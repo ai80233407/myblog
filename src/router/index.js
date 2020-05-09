@@ -5,16 +5,29 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout/admin'
+
 import LayoutBlog from '@/layout/blog'
 
 var common = {
   'header-nav': () => import('@/components/Header/Nav'),
   'header-login-btn': () => import('@/components/Header/LoginBtn'),
   'header-logo': () => import('@/components/Header/Logo'),
-  'containner-route': () => import('@/views/index/Detail'),
-  'containner-left-card': () => import('@/views/index/TopArticel'),
-  'containner-right-card': () => import('@/views/boxcard/index'),
   'footer-content': () => import('@/views/index/Footer')
+}
+
+import BlogIndex from '@/layout/blog/child/FirstDesign'
+
+var other = {
+  'containner-left-card': () => import('@/views/index/TopArticel'),
+  'containner-route': () => import('@/views/index/Detail'),
+  'containner-right-card': () => import('@/views/boxcard/index')
+}
+
+import BlogCustom from '@/layout/blog/child/CustomDesign'
+
+var tool = {
+  'custom-top': () => import('@/views/index/Detail'),
+  'custom-bottom': () => import('@/components/ConfirmBtn')
 }
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -70,30 +83,78 @@ export const constantRoutes = [
     children: [
       {
         path: 'history',
-        name: 'history',
         components: {
-          'containner-main': () => import('@/views/index/HistoryList'),
-          ...common
+          ...common,
+          'center-view': BlogIndex
         },
-        meta: { isNeedAuth: false }
+        children: [
+          {
+            path: '',
+            components: {
+              'containner-main': () => import('@/views/index/HistoryList'),
+              ...other
+            },
+            meta: { isNeedAuth: false }
+          }
+        ]
       },
       {
         path: 'footmark',
-        name: 'footmark',
         components: {
-          'containner-main': () => import('@/views/index/Timeline'),
-          ...common
+          ...common,
+          'center-view': BlogIndex
         },
-        meta: { isNeedAuth: false }
+        children: [
+          {
+            path: '',
+            components: {
+              'containner-main': () => import('@/views/index/Timeline'),
+              ...other
+            },
+            meta: { isNeedAuth: false }
+          }
+        ]
       },
       {
         path: '',
-        name: 'default',
         components: {
-          'containner-main': () => import('@/views/index/MainPage'),
-          ...common
+          ...common,
+          'center-view': BlogIndex
         },
-        meta: { isNeedAuth: false }
+        children: [
+          {
+            path: '',
+            components: {
+              'containner-main': () => import('@/views/index/MainPage'),
+              ...other
+            },
+            meta: { isNeedAuth: false }
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    path: '/article',
+    component: LayoutBlog,
+    children: [
+      {
+        path: 'push',
+        components: {
+          ...common,
+          'center-view': BlogCustom
+        },
+        children: [
+          {
+            path: '',
+            components: {
+              'custom-middem': () => import('@/views/article/push'),
+              ...tool
+            },
+            meta: { isNeedAuth: false }
+          }
+        ]
       }
     ]
   },

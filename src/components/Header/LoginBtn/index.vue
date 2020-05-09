@@ -3,17 +3,17 @@
     <template v-if="islogin">
       <span :style="{'background': 'url('+avatar+')'}" class="pan-thumb "></span>
       <div style="text-align: right;">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <span class="user-name">
             {{ name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>发布文章</el-dropdown-item>
-            <el-dropdown-item>查看分类</el-dropdown-item>
-            <el-dropdown-item>动态</el-dropdown-item>
-            <el-dropdown-item disabled>管理后台</el-dropdown-item>
-            <el-dropdown-item divided>其他</el-dropdown-item>
+            <el-dropdown-item command="article_push">发布文章</el-dropdown-item>
+            <el-dropdown-item command="look_type">查看分类</el-dropdown-item>
+            <el-dropdown-item command="trends">动态</el-dropdown-item>
+            <el-dropdown-item command="manager" disabled>管理后台</el-dropdown-item>
+            <el-dropdown-item command="other" divided>其他</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span class="user-info">
@@ -49,6 +49,12 @@ export default {
       vm.$store.dispatch('user/logout').then(function() {
         vm.$router.push({ path: '/' })
       })
+    },
+    handleCommand(command) {
+      const vm = this
+      if (command === 'article_push') {
+        vm.$router.push({ path: '/article/push' })
+      }
     }
   }
 }
