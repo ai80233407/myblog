@@ -11,12 +11,8 @@
         title="You can change the language of the admin system to see the effect"
         type="success"
       />
-      <markdown-editor ref="markdownEditor" v-model="content" height="300px" />
+      <markdown-editor ref="markdownEditor" v-model="content" />
     </div>
-    <el-button style="margin-top:80px;" type="primary" icon="el-icon-document" @click="getHtml">
-      Get HTML
-    </el-button>
-    <div v-html="html" />
   </el-row>
 </template>
 
