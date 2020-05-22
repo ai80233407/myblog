@@ -27,7 +27,8 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
-
+// 构建通信总线
+Vue.prototype.EventBus = new Vue()
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 

@@ -7,6 +7,7 @@
     :initialValue="value"
     :previewStyle="view"
     :initialEditType="mode"
+    @change="valueChange"
   />
 </template>
 
@@ -76,6 +77,9 @@ export default {
   methods: {
     getHtml: function() {
       return this.$refs.editor.invoke('getHtml')
+    },
+    valueChange: function() {
+      return this.$emit('valueChange', this.getHtml())
     }
   }
 }

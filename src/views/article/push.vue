@@ -4,20 +4,12 @@
       <div class="title-input">
         <el-input v-model="title" placeholder="请输入文章标题" clearable />
       </div>
-      <markdown-editor ref="markdownEditor" v-model="content" />
+      <markdown-editor ref="markdownEditor" v-model="content" @valueChange="valueChange" />
     </div>
   </el-row>
 </template>
 
 <script>
-const content = `
-**This is test**
-
-* vue
-* element
-* webpack
-
-`
 import MarkdownEditor from '@/components/MarkdownEditor'
 
 export default {
@@ -25,15 +17,21 @@ export default {
   components: { MarkdownEditor },
   data() {
     return {
-      content: content,
-      title: '',
-      html: ''
+      content: '',
+      title: ''
+    }
+  },
+  watch: {
+    title: function(newQuestion, oldQuestion) {
+      const vm = this
+      vm.EventBus.$emit('article-btn-redata', { title: vm.title, content: vm.content })
     }
   },
   methods: {
-    getHtml() {
-      this.html = this.$refs.markdownEditor.getHtml()
-      console.log(this.html)
+    valueChange: function(content) {
+      const vm = this
+      vm.content = content
+      vm.EventBus.$emit('article-btn-redata', { title: vm.title, content: vm.content })
     }
   }
 }

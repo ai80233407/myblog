@@ -32,8 +32,15 @@ export default {
           callback: 'confirmSubmit'
         }
       ],
-      position: 'center'
+      position: 'center',
+      postData: {}
     }
+  },
+  mounted() {
+    const vm = this
+    vm.EventBus.$on('article-btn-redata', (data) => {
+      vm.postData = data
+    })
   },
   methods: {
     backPrev: function() {
@@ -49,7 +56,7 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(255, 255, 255, 0.8)'
       })
-      ArticleAdd({ data: [] }).then(function(response) {
+      ArticleAdd(vm.postData).then(function(response) {
         loading.close()
         let conf = {}
         if (response.data.isok) {
