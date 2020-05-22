@@ -4,11 +4,12 @@
     :position="position"
     @backPrev="backPrev"
     @confirmSubmit="confirmSubmit"
-  ></confirm-btn>
+  />
 </template>
 
 <script>
 import confirmBtn from '@/components/ConfirmBtn'
+import { ArticleAdd } from '@/api/article'
 
 export default {
   name: 'Btn',
@@ -36,10 +37,38 @@ export default {
   },
   methods: {
     backPrev: function() {
-      console.log('backPrev')
+      const vm = this
+      vm.$router.go(-1)
     },
     confirmSubmit: function() {
-      console.log('confirmSubmit')
+      const vm = this
+      const loading = vm.$loading({
+        target: '.center-content',
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255, 255, 255, 0.8)'
+      })
+      ArticleAdd({ data: [] }).then(function(response) {
+        loading.close()
+        let conf = {}
+        if (response.data.isok) {
+          conf = {
+            showClose: true,
+            message: '添加成功~',
+            type: 'success',
+            duration: 1200
+          }
+        } else {
+          conf = {
+            showClose: true,
+            message: '添加失败~',
+            type: 'error',
+            duration: 1200
+          }
+        }
+        vm.$message(conf)
+      })
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="5">
+  <el-row :gutter="5" class="center-content">
     <el-col :span="24">
       <router-view name="custom-top"></router-view>
     </el-col>

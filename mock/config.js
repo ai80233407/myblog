@@ -1,6 +1,6 @@
 export default [
   {
-    url: '/v1/config/GetHeaderNav',
+    url: '/config/GetHeaderNav',
     type: 'post',
     response: (req, res) => {
       return {

@@ -1,8 +1,8 @@
 import request from '@/utils/request'
-export function GetHeaderNav() {
+export function ArticleAdd(data) {
   return request({
-    url: '/config/GetHeaderNav',
+    url: '/article/add',
     method: 'post',
-    params: []
+    data
   })
 }
