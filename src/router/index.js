@@ -25,10 +25,6 @@ var other = {
 
 import BlogCustom from '@/layout/blog/child/CustomDesign'
 
-var tool = {
-  'custom-top': () => import('@/views/index/Detail'),
-  'custom-bottom': () => import('@/components/ConfirmBtn')
-}
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -150,9 +146,10 @@ export const constantRoutes = [
             path: '',
             components: {
               'custom-middem': () => import('@/views/article/push'),
-              ...tool
+              'custom-top': () => import('@/views/index/Detail'),
+              'custom-bottom': () => import('@/views/article/btn')
             },
-            meta: { isNeedAuth: false }
+            meta: { isNeedAuth: true }
           }
         ]
       }

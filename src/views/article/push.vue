@@ -1,16 +1,9 @@
 <template>
   <el-row :gutter="5">
     <div class="editor-container">
-      <br />
-      <el-tag class="tag-title">
-        I18n:
-      </el-tag>
-      <br />
-      <el-alert
-        :closable="false"
-        title="You can change the language of the admin system to see the effect"
-        type="success"
-      />
+      <div class="title-input">
+        <el-input v-model="title" placeholder="请输入文章标题" clearable />
+      </div>
       <markdown-editor ref="markdownEditor" v-model="content" />
     </div>
   </el-row>
@@ -33,6 +26,7 @@ export default {
   data() {
     return {
       content: content,
+      title: '',
       html: ''
     }
   },
@@ -51,5 +45,9 @@ export default {
   }
   .tag-title{
     margin-bottom: 5px;
+  }
+  .title-input{
+    width: 100%;
+    margin: 20px 0;
   }
 </style>
