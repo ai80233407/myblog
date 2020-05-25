@@ -2,7 +2,7 @@
   <el-row :gutter="5">
     <div class="editor-container">
       <div class="title-input">
-        <el-input v-model="title" placeholder="请输入文章标题" clearable />
+        <el-input v-model="title" placeholder="请输入文章标题" clearable maxlength="30" show-word-limit />
       </div>
       <markdown-editor ref="markdownEditor" v-model="content" @valueChange="valueChange" />
     </div>

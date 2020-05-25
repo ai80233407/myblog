@@ -59,6 +59,7 @@ export default {
       ArticleAdd(vm.postData).then(function(response) {
         loading.close()
         let conf = {}
+        let redireact = {}
         if (response.data.isok) {
           conf = {
             showClose: true,
@@ -75,6 +76,7 @@ export default {
           }
         }
         vm.$message(conf)
+        vm.$router.push()
       })
     }
   }
