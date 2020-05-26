@@ -145,9 +145,25 @@ export const constantRoutes = [
           {
             path: '',
             components: {
-              'custom-middem': () => import('@/views/article/push'),
               'custom-top': () => import('@/views/index/Detail'),
-              'custom-bottom': () => import('@/views/article/btn')
+              'custom-middem': () => import('@/views/article/push')
+            },
+            meta: { isNeedAuth: true }
+          }
+        ]
+      },
+      {
+        path: 'look/:id',
+        components: {
+          ...common,
+          'center-view': BlogCustom
+        },
+        children: [
+          {
+            path: '',
+            components: {
+              'custom-top': () => import('@/views/index/Detail'),
+              'custom-middem': () => import('@/views/article/look')
             },
             meta: { isNeedAuth: true }
           }

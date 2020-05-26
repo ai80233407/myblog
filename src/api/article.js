@@ -6,3 +6,10 @@ export function ArticleAdd(data) {
     data
   })
 }
+export function ArticleLook(data) {
+  return request({
+    url: '/article/look',
+    method: 'post',
+    data
+  })
+}

@@ -7,7 +7,7 @@ export default [
         code: 20000,
         data: {
           isok: true,
-          result: []
+          result: { id: 5 }
         }
       }
     }

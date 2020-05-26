@@ -6,32 +6,54 @@
       </div>
       <markdown-editor ref="markdownEditor" v-model="content" @valueChange="valueChange" />
     </div>
+    <div>
+      <confirm-btn
+        :btn-list="btnList"
+        :position="position"
+        @backPrev="backPrev"
+        @confirmSubmit="confirmSubmit(afterExec)"
+      />
+    </div>
   </el-row>
 </template>
 
 <script>
 import MarkdownEditor from '@/components/MarkdownEditor'
-
+import btnMixin from '@/components/ConfirmBtn/btnMixin'
 export default {
   name: 'Push',
   components: { MarkdownEditor },
+  mixins: [btnMixin],
   data() {
     return {
       content: '',
-      title: ''
+      title: '',
+      postData: {}
     }
   },
   watch: {
-    title: function(newQuestion, oldQuestion) {
+    title: function(newValue, oldValue) {
       const vm = this
-      vm.EventBus.$emit('article-btn-redata', { title: vm.title, content: vm.content })
+      vm.title = newValue
+      vm.postData = { title: vm.title, content: vm.content }
     }
+  },
+  mounted() {
+    const vm = this
+    vm.setBtnConfig('article/push', 'center')
   },
   methods: {
     valueChange: function(content) {
       const vm = this
       vm.content = content
-      vm.EventBus.$emit('article-btn-redata', { title: vm.title, content: vm.content })
+      vm.postData = { title: vm.title, content: vm.content }
+    },
+    afterExec: function(data) {
+      const vm = this
+      const status = data.isok
+      if (status) {
+        vm.$router.push({ path: '/article/look/' + data.result.id })
+      }
     }
   }
 }
