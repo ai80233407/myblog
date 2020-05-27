@@ -1,24 +1,22 @@
 <template>
   <el-row>
     <el-col :span="24">
-      <h2 class="article-title">hello world!</h2>
+      <h2 class="article-title">{{ title }}</h2>
     </el-col>
-    <el-col :span="24">
-      <div class="article-content">
-        <Viewer
-          key="article-view"
-          :height="'500px'"
-          :initialValue="value"
-        />
-      </div>
-    </el-col>
+    <div class="article-content">
+      <Viewer
+        v-if="islock"
+        key="article-view"
+        :initialValue="content"
+      />
+    </div>
     <el-col :span="24">
       <confirm-btn
         :btn-list="btnList"
         :position="position"
         @backPrev="backPrev"
         @confirmEdit="confirmEdit(afterEdit)"
-        @confirmDel="confirmDel(afterDel)"
+        @confirmDel="confirmDel(afterDel, 'ArticleDel')"
       />
     </el-col>
   </el-row>
@@ -36,26 +34,37 @@ export default {
   mixins: [btnMixin],
   props: {
     id: {
-      type: Number,
+      type: String,
       isRequired: true,
-      default: 0
+      default: '0'
     }
   },
   data: function() {
     return {
-      title: '',
-      value: '<h1>11111111111111</h1>'
+      title: '......',
+      content: '',
+      islock: false,
+      postData: {}
     }
   },
   mounted() {
     const vm = this
     vm.setBtnConfig('article/look', 'center')
-    console.log(vm.id)
+    if (!vm.isEmpty(vm.id)) {
+      vm.postData = { id: vm.id }
+      vm.apiCall({ id: vm.id }, 'ArticleLook').then(function(response) {
+        if (response.data.isok) {
+          vm.title = response.data.result.title
+          vm.content = response.data.result.content
+          vm.islock = true
+        }
+      })
+    }
   },
   methods: {
     afterEdit: function() {
       const vm = this
-      vm.$router.push({ path: '/article/push/' })
+      vm.$router.push({ path: '/article/push/' + vm.id })
     },
     afterDel: function(del) {
       const vm = this
@@ -73,6 +82,6 @@ export default {
   text-align: center;
 }
 .article-content{
-  min-height: 500px;
+  min-height: 600px;
 }
 </style>

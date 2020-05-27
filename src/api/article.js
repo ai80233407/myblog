@@ -13,3 +13,10 @@ export function ArticleLook(data) {
     data
   })
 }
+export function ArticleDel(data) {
+  return request({
+    url: '/article/del',
+    method: 'post',
+    data
+  })
+}

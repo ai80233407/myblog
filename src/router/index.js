@@ -149,6 +149,15 @@ export const constantRoutes = [
               'custom-middem': () => import('@/views/article/push')
             },
             meta: { isNeedAuth: true }
+          },
+          {
+            path: ':id',
+            components: {
+              'custom-top': () => import('@/views/index/Detail'),
+              'custom-middem': () => import('@/views/article/push')
+            },
+            props: { 'custom-top': false, 'custom-middem': true },
+            meta: { isNeedAuth: true }
           }
         ]
       },
@@ -165,6 +174,7 @@ export const constantRoutes = [
               'custom-top': () => import('@/views/index/Detail'),
               'custom-middem': () => import('@/views/article/look')
             },
+            props: { 'custom-top': false, 'custom-middem': true },
             meta: { isNeedAuth: true }
           }
         ]

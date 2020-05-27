@@ -4,14 +4,16 @@
       <div class="title-input">
         <el-input v-model="title" placeholder="请输入文章标题" clearable maxlength="30" show-word-limit />
       </div>
-      <markdown-editor ref="markdownEditor" v-model="content" @valueChange="valueChange" />
+      <div class="title-content">
+        <markdown-editor v-if="islock" ref="markdownEditor" v-model="content" @valueChange="valueChange" />
+      </div>
     </div>
     <div>
       <confirm-btn
         :btn-list="btnList"
         :position="position"
         @backPrev="backPrev"
-        @confirmSubmit="confirmSubmit(afterExec)"
+        @confirmSubmit="confirmSubmit(afterExec, 'ArticleAdd')"
       />
     </div>
   </el-row>
@@ -24,11 +26,19 @@ export default {
   name: 'Push',
   components: { MarkdownEditor },
   mixins: [btnMixin],
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: '0'
+    }
+  },
   data() {
     return {
-      content: '',
       title: '',
-      postData: {}
+      content: '',
+      postData: {},
+      islock: false
     }
   },
   watch: {
@@ -41,6 +51,30 @@ export default {
   mounted() {
     const vm = this
     vm.setBtnConfig('article/push', 'center')
+    if (vm.isEmpty(vm.id)) {
+      vm.islock = true
+    } else {
+      // 修改文章时配置弹框文案
+      vm.message = {
+        success: {
+          msg: '修改成功~',
+          type: 'success',
+          time: 1200
+        },
+        falid: {
+          msg: '修改失败~',
+          type: 'error',
+          time: 1200
+        }
+      }
+      vm.apiCall({ id: vm.id }, 'ArticleLook').then(function(response) {
+        if (response.data.isok) {
+          vm.title = response.data.result.title
+          vm.content = response.data.result.content
+          vm.islock = true
+        }
+      })
+    }
   },
   methods: {
     valueChange: function(content) {
@@ -48,11 +82,11 @@ export default {
       vm.content = content
       vm.postData = { title: vm.title, content: vm.content }
     },
-    afterExec: function(data) {
+    afterExec: function(response) {
       const vm = this
-      const status = data.isok
+      const status = response.data.isok
       if (status) {
-        vm.$router.push({ path: '/article/look/' + data.result.id })
+        vm.$router.push({ path: '/article/look/' + response.data.result.id })
       }
     }
   }
@@ -69,5 +103,8 @@ export default {
   .title-input{
     width: 100%;
     margin: 20px 0;
+  }
+  .title-content{
+    min-height: 500px;
   }
 </style>

@@ -1,5 +1,5 @@
 import confirmBtn from '@/components/ConfirmBtn'
-import { ArticleAdd, ArticleLook } from '@/api/article'
+import { ArticleAdd, ArticleLook, ArticleDel } from '@/api/article'
 
 export default {
   name: 'Btn',
@@ -29,7 +29,8 @@ export default {
         text: 'Loading',
         spinner: 'el-icon-loading',
         background: 'rgba(255, 255, 255, 0.8)'
-      }
+      },
+      apiList: ['ArticleAdd', 'ArticleLook', 'ArticleDel']
     }
   },
   methods: {
@@ -37,7 +38,7 @@ export default {
       const vm = this
       vm.$router.go(-1)
     },
-    confirmSubmit: function(callback) {
+    confirmSubmit: function(callback, apiname) {
       const vm = this
       const loading = vm.$loading({
         target: vm.loading.target,
@@ -46,36 +47,37 @@ export default {
         spinner: vm.loading.spinner,
         background: vm.loading.background
       })
-      vm.apiCall(vm.postData, 'confirmSubmit').then(function(response) {
-        loading.close()
-        let conf = {}
-        if (response.data.isok) {
-          conf = {
-            showClose: true,
-            message: vm.message.success.msg,
-            type: vm.message.success.type,
-            duration: vm.message.success.time
+      if (vm.inArray(apiname, vm.apiList)) {
+        vm.apiCall(vm.postData, apiname).then(function(response) {
+          loading.close()
+          let conf = {}
+          if (response.data.isok) {
+            conf = {
+              showClose: true,
+              message: vm.message.success.msg,
+              type: vm.message.success.type,
+              duration: vm.message.success.time
+            }
+          } else {
+            conf = {
+              showClose: true,
+              message: vm.message.falid.msg,
+              type: vm.message.success.type,
+              duration: vm.message.success.time
+            }
           }
-        } else {
-          conf = {
-            showClose: true,
-            message: vm.message.falid.msg,
-            type: vm.message.success.type,
-            duration: vm.message.success.time
-          }
-        }
-        vm.$message(conf)
-        if (typeof callback === 'function') {
-          callback(response.data)
-        }
-      })
-    },
-    confirmEdit: function(callback) {
-      if (typeof callback === 'function') {
-        callback()
+          vm.$message(conf)
+          vm.funCall(callback, response)
+        })
+      } else {
+        vm.funCall(callback)
       }
     },
-    confirmDel: function(callback) {
+    confirmEdit: function(callback) {
+      const vm = this
+      vm.funCall(callback)
+    },
+    confirmDel: function(callback, apiname) {
       const vm = this
       let choose = false
       vm.$confirm('此操作将永久删除该内容, 是否继续?', '提示', {
@@ -83,25 +85,29 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        vm.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-        choose = true
-      }).catch(() => {
-        vm.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      }).then(() => {
-        if (typeof callback === 'function') {
-          callback(choose)
+        if (vm.inArray(apiname, vm.apiList)) {
+          vm.apiCall(vm.postData, apiname).then(function(response) {
+            if (response.data.isok) {
+              vm.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              choose = true
+            } else {
+              choose = false
+            }
+            vm.funCall(callback, choose)
+          })
         }
+      }).catch(() => {
+        choose = false
+        vm.funCall(callback, choose)
       })
     },
     setBtnConfig: function(mode, position) {
       const vm = this
       vm.position = position
+      vm.mode = mode
       switch (mode) {
         case 'article/push':
           vm.btnList = [
@@ -162,23 +168,23 @@ export default {
         default :
       }
     },
-    apiCall: function(data, type) {
-      const vm = this
-      if (type === 'confirmSubmit') {
-        if (vm.mode === 'article/push') {
-          return ArticleAdd(data)
-        } if (vm.mode === 'article/look') {
-          return ArticleLook(data)
-        } else {
-          return ArticleAdd(data)
-        }
+    apiCall: function(data, name) {
+      if (name === 'ArticleAdd') {
+        return ArticleAdd(data)
+      } else if (name === 'ArticleLook') {
+        return ArticleLook(data)
+      } else if (name === 'ArticleDel') {
+        return ArticleDel(data)
       } else {
-        if (vm.mode === 'article/push') {
-          return ArticleAdd(data)
-        } if (vm.mode === 'article/look') {
-          return ArticleLook(data)
+        return ArticleAdd(data)
+      }
+    },
+    funCall: function(callback, data) {
+      if (typeof callback === 'function') {
+        if (data) {
+          callback(data)
         } else {
-          return ArticleAdd(data)
+          callback()
         }
       }
     }
