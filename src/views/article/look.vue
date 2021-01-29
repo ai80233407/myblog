@@ -7,7 +7,7 @@
       <Viewer
         v-if="islock"
         key="article-view"
-        :initialValue="content"
+        :initial-value="content"
       />
     </div>
     <el-col :span="24">

@@ -7,11 +7,10 @@
           :fetch-suggestions="querySearchAsync"
           style="width: 100%"
           placeholder="请输入搜索内容"
-          @select="handleSelect"
           :highlight-first-item="true"
           prefix-icon="el-icon-search"
-        >
-        </el-autocomplete>
+          @select="handleSelect"
+        />
       </div>
       <el-col :span="24">
         <div>
